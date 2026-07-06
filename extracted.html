@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://openrouter.ai https://*.openrouter.ai https://cloudflareinsights.com https://*.cloudflareinsights.com; img-src 'self' data: blob:;">
+  <title>G0DM0DƎ</title>
+  <link rel="icon" type="image/svg+xml" href="public/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <!-- Mobile overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-text">G0DM0<span class="flipped-e">D</span><span class="flipped-e-soft">E</span></span>
+        </div>
+        <button class="new-chat-btn" onclick="newChat()">
+          <span>+</span> New Chat
+        </button>
+      </div>
+      <div class="conversations" id="conversations">
+        <div class="empty-state">No conversations yet</div>
+      </div>
+      <div class="sidebar-footer">
+        <button class="settings-btn" onclick="openSettings()">
+          <span>⚙</span> Settings
+        </button>
+      </div>
+    </aside>
+    <!-- Main Area -->
+    <main class="main">
+      <header class="chat-header">
+        <div class="header-left">
+          <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
+          <!-- Mode Switcher -->
+          <div class="mode-switcher" id="modeSwitcher">
+            <button class="mode-switcher-btn ultraplinian" id="modeSwitcherBtn" onclick="toggleModeDropdown()">
+              <span class="mode-icon">🌋</span>
+              <span class="mode-text">ULTRAPLINIAN</span>
+              <span class="mode-chevron">▼</span>
+            </button>
+            <div class="mode-dropdown" id="modeDropdown">
+              <div class="mode-option" data-mode="ultraplinian" onclick="selectMode('ultraplinian')">
+                <span class="mode-option-icon">🌋</span>
+                <div class="mode-option-info">
+                  <div class="mode-option-name">ULTRAPLINIAN</div>
+                  <div class="mode-option-desc">Query ALL models, AI judge picks best</div>
+                </div>
+                <span class="mode-option-check">✓</span>
+              </div>
+              <div class="mode-option" data-mode="parseltongue" onclick="selectMode('parseltongue')">
+                <span class="mode-option-icon">🐉</span>
+                <div class="mode-option-info">
+                  <div class="mode-option-name">PARSELTONGUE</div>
+                  <div class="mode-option-desc">33 text obfuscations race in parallel</div>
+                </div>
+                <span class="mode-option-check">✓</span>
+              </div>
+              <div class="mode-option" data-mode="pliny" onclick="selectMode('pliny')">
+                <span class="mode-option-icon">⛓️‍💥</span>
+                <div class="mode-option-info">
+                  <div class="mode-option-name">G0DM0D3 CLASSIC</div>
+                  <div class="mode-option-desc">Classic L1B3RT4S Prompts — 4 model+prompt combos race</div>
+                </div>
+                <span class="mode-option-check">✓</span>
+              </div>
+            </div>
+          </div>
+          <select class="model-select" id="modelSelect" onchange="saveState()" style="display: none;">
+            <optgroup label="Google">
+              <option value="google/gemini-3-pro-preview">Gemini 3 Pro</option>
+              <option value="google/gemini-3.1-pro-preview">Gemini 3.1 Pro</option>
+              <option value="google/gemini-3-flash-preview">Gemini 3 Flash</option>
+              <option value="google/gemini-2.5-pro">Gemini 2.5 Pro</option>
+              <option value="google/gemini-2.5-flash">Gemini 2.5 Flash</option>
+              <option value="google/gemma-3-27b-it">Gemma 3 27B</option>
+            </optgroup>
+            <optgroup label="StepFun">
+              <option value="stepfun/step-3.5-flash">Step 3.5 Flash</option>
+            </optgroup>
+            <optgroup label="xAI">
+              <option value="x-ai/grok-4">Grok 4</option>
+              <option value="x-ai/grok-code-fast-1">Grok Code Fast</option>
+              <option value="x-ai/grok-4-fast">Grok 4 Fast</option>
+              <option value="x-ai/grok-4.1-fast">Grok 4.1 Fast</option>
+            </optgroup>
+            <optgroup label="Anthropic">
+              <option value="anthropic/claude-opus-4.6">Claude Opus 4.6</option>
+              <option value="anthropic/claude-sonnet-4.6">Claude Sonnet 4.6</option>
+              <option value="anthropic/claude-sonnet-4">Claude Sonnet 4</option>
+              <option value="anthropic/claude-opus-4">Claude Opus 4</option>
+              <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
+            </optgroup>
+            <optgroup label="OpenAI">
+              <option value="openai/gpt-5.4-chat">GPT-5.4 Chat</option>
+              <option value="openai/gpt-5.2">GPT-5.2</option>
+              <option value="openai/gpt-5">GPT-5</option>
+              <option value="openai/gpt-4o">GPT-4o</option>
+              <option value="openai/gpt-oss-120b">GPT-OSS 120B</option>
+              <option value="openai/gpt-oss-20b">GPT-OSS 20B</option>
+            </optgroup>
+            <optgroup label="DeepSeek">
+              <option value="deepseek/deepseek-v3.2">DeepSeek V3.2</option>
+              <option value="deepseek/deepseek-chat">DeepSeek V3</option>
+              <option value="deepseek/deepseek-r1">DeepSeek R1</option>
+            </optgroup>
+            <optgroup label="Qwen">
+              <option value="qwen/qwen3.5-plus-02-15">Qwen 3.5 Plus</option>
+              <option value="qwen/qwen3-coder">Qwen3 Coder 480B</option>
+              <option value="qwen/qwen3-235b-a22b">Qwen3 235B</option>
+              <option value="qwen/qwen-2.5-72b-instruct">Qwen 2.5 72B</option>
+              <option value="qwen/qwen-2.5-coder-32b-instruct">Qwen 2.5 Coder 32B</option>
+              <option value="qwen/qwq-32b">QwQ 32B</option>
+            </optgroup>
+            <optgroup label="Meta Llama">
+              <option value="meta-llama/llama-4-maverick">Llama 4 Maverick</option>
+              <option value="meta-llama/llama-4-scout">Llama 4 Scout</option>
+              <option value="meta-llama/llama-3.3-70b-instruct">Llama 3.3 70B</option>
+              <option value="meta-llama/llama-3.1-405b-instruct">Llama 3.1 405B</option>
+              <option value="meta-llama/llama-3.1-8b-instruct">Llama 3.1 8B</option>
+            </optgroup>
+            <optgroup label="Z.AI / GLM">
+              <option value="z-ai/glm-5">GLM-5</option>
+              <option value="z-ai/glm-5-turbo">GLM-5 Turbo</option>
+              <option value="z-ai/glm-4.7">GLM-4.7</option>
+            </optgroup>
+            <optgroup label="Mistral">
+              <option value="mistralai/mistral-large-2512">Mistral Large 3</option>
+              <option value="mistralai/mistral-medium-3.1">Mistral Medium 3.1</option>
+              <option value="mistralai/mixtral-8x22b-instruct">Mixtral 8x22B</option>
+            </optgroup>
+            <optgroup label="Hermes">
+              <option value="nousresearch/hermes-4-70b">Hermes 4 70B</option>
+              <option value="nousresearch/hermes-4-405b">Hermes 4 405B</option>
+              <option value="nousresearch/hermes-3-llama-3.1-70b">Hermes 3 70B</option>
+              <option value="nousresearch/hermes-3-llama-3.1-405b">Hermes 3 405B</option>
+            </optgroup>
+            <optgroup label="Xiaomi">
+              <option value="xiaomi/mimo-v2-pro">MiMo-V2 Pro</option>
+              <option value="xiaomi/mimo-v2-flash">MiMo-V2 Flash</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option value="minimax/minimax-m2.5">MiniMax M2.5</option>
+              <option value="moonshotai/kimi-k2">Kimi K2</option>
+              <option value="moonshotai/kimi-k2.5">Kimi K2.5</option>
+              <option value="perplexity/sonar">Perplexity Sonar</option>
+              <option value="nvidia/nemotron-3-super-120b-a12b">Nemotron 3 Super</option>
+            </optgroup>
+          </select>
+          <select class="model-select" id="libertasModelSelect" onchange="state.libertasSelectedCombo = this.value; saveState();" style="display: none;">
+            <option value="all">❤️‍🔥 FULL COMBO — Race All 5</option>
+            <option value="hermes-fast">⚡ GODMODE FAST · Hermes 4 · INSTANT STREAM</option>
+            <option value="gpt-classic">💛 GPT-4o · OG GODMODE L33T</option>
+            <option value="gemini-reset">💙 Gemini 2.5 Flash · REBEL GENIUS</option>
+            <option value="sonnet-35">🩷 Claude 3.5 Sonnet · SEMANTIC INVERSION GODMODE</option>
+            <option value="grok-reset">💜 Grok 3 · RESET_CORTEX</option>
+          </select>
+        </div>
+        <div class="header-right">
+          <!-- Prompts tried counter -->
+          <div class="header-prompts-counter" id="headerPromptsCounter" title="Total prompts tried">
+            <span class="prompts-hash">#</span>
+            <span id="promptsTriedCount">0</span>
+          </div>
+          <span class="header-separator">|</span>
+          <button class="header-new-chat" onclick="newChat()" title="New Chat">+</button>
+        </div>
+      </header>
+      <div class="messages" id="messagesArea">
+        <div class="welcome" id="welcome">
+          <div class="welcome-icon">🜏</div>
+          <h2>G0DM0<span class="flipped-e">D</span><span class="flipped-e-soft">E</span></h2>
+          <p>Open-source, privacy-respecting, liberated AI chat. {GODMODE:ENABLED}</p>
+          <div class="suggestions">
+            <div class="suggestion" onclick="useSuggestion('Explain quantum computing in simple terms')">Explain quantum computing in simple terms</div>
+            <div class="suggestion" onclick="useSuggestion('What are common API security vulnerabilities?')">What are common API security vulnerabilities?</div>
+            <div class="suggestion" onclick="useSuggestion('How to make kykeon')">How to make kykeon</div>
+            <div class="suggestion" onclick="useSuggestion('What is the nature of consciousness?')">What is the nature of consciousness?</div>
+          </div>
+        </div>
+      </div>
+      <div class="input-area">
+        <div class="input-container">
+          <div id="noApiWarning" class="no-api-warning" style="display: none;">
+            ⚠️ No API key. <a onclick="startOpenRouterLogin()" style="cursor:pointer;text-decoration:underline;">Log in with OpenRouter</a> or <a onclick="openSettings()" style="cursor:pointer;text-decoration:underline;">paste your key</a> to start.
+          </div>
+          <!-- Image preview strip (shown when image attached) -->
+          <div class="image-preview-strip" id="imagePreviewStrip">
+            <img class="image-preview-thumb" id="imagePreviewThumb" src="" alt="preview">
+            <div class="image-preview-info">
+              <div class="image-preview-name" id="imagePreviewName"></div>
+              <div class="image-preview-size" id="imagePreviewSize"></div>
+            </div>
+            <button class="image-preview-remove" onclick="removeAttachedImage()" title="Remove image">✕</button>
+          </div>
+          <input type="file" id="imageFileInput" accept="image/*" style="display:none" onchange="handleImageSelected(event)">
+          <div class="input-wrapper" id="inputWrapper">
+            <button class="img-upload-btn" id="imgUploadBtn" onclick="document.getElementById('imageFileInput').click()" title="Attach image">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="3"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <path d="M21 15l-5-5L5 21"/>
+              </svg>
+            </button>
+            <textarea
+              id="messageInput"
+              placeholder="Message..."
+              rows="1"
+              onkeydown="handleKeydown(event)"
+              oninput="autoResize(this)"
+            ></textarea>
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">→</button>
+          </div>
+          <div class="input-hint">Enter to send · Shift+Enter for new line · 📷 for image</div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <!-- Disclaimer Modal (first visit) -->
+  <div class="modal-overlay" id="disclaimerModal" style="z-index: 9999;">
+    <div class="modal" style="max-width: 560px;">
+      <div class="modal-header">
+        <h3>Research Preview</h3>
+      </div>
+      <div class="modal-body" style="line-height: 1.6;">
+        <p style="color: var(--primary); font-weight: bold; margin-bottom: 12px;">
+          G0DM0D3 is an open-source research tool for studying LLM output steering and safety evaluation.
+        </p>
+        <p style="margin-bottom: 12px;">By using this tool, you agree that:</p>
+        <ul style="margin: 0 0 16px 20px; color: var(--text);">
+          <li style="margin-bottom: 8px;"><strong>You are solely responsible</strong> for any content you generate, request, or distribute using this tool.</li>
+          <li style="margin-bottom: 8px;">This tool is provided <strong>as-is for research purposes</strong>. It is not intended for use in production systems or to cause harm.</li>
+          <li style="margin-bottom: 8px;">You will <strong>not use this tool</strong> to generate content that violates any applicable laws in your jurisdiction.</li>
+          <li style="margin-bottom: 8px;">The developers assume <strong>no liability</strong> for outputs produced by third-party models accessed through this interface.</li>
+          <li style="margin-bottom: 8px;">Your API keys are stored <strong>locally in your browser only</strong> and are never sent to our servers.</li>
+          <li style="margin-bottom: 8px;"><strong>Metadata collection:</strong> We collect anonymous operational metadata (models used, latencies, pipeline config, error types) &mdash; <strong>never</strong> your messages, prompts, responses, API keys, or any PII. This metadata is auto-published to HuggingFace as open research data.</li>
+          <li style="margin-bottom: 8px;"><strong>Opt-in dataset collection:</strong> If you enable Dataset Generation in Settings, your prompts and model responses will be collected, PII-scrubbed, and <strong>published to a public HuggingFace dataset</strong>. Do not include personal information when this mode is active. See <a href="TERMS.md" target="_blank" style="color: var(--primary); text-decoration: underline;">Terms of Service</a> for full details.</li>
+        </ul>
+        <p style="color: var(--text-dim); font-size: 13px; margin-bottom: 20px;">
+          This is an experimental research preview. Models are accessed via OpenRouter using your own API key.
+          We collect structural metadata for research &mdash; never your conversations. See our <a href="TERMS.md" target="_blank" style="color: var(--primary);">Terms</a> for details.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+          <button onclick="declineDisclaimer()" style="padding: 10px 20px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); border-radius: 8px; cursor: pointer; font-size: 14px;">
+            Decline
+          </button>
+          <button onclick="acceptDisclaimer()" style="padding: 10px 24px; background: var(--primary); color: var(--bg); border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px;">
+            I Agree
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal" style="max-width: 800px;">
+      <div class="modal-header">
+        <h3>⚙ Settings</h3>
+        <button class="modal-close" onclick="closeSettings()">×</button>
+      </div>
+      <div class="modal-body">
+        <!-- Tabs -->
+        <div class="settings-tabs">
+          <button class="settings-tab active" data-tab="general">General</button>
+          <button class="settings-tab" data-tab="strategies">Strategies</button>
+          <button class="settings-tab" data-tab="system">System Prompt</button>
+          <button class="settings-tab" data-tab="api">API Keys</button>
+          <button class="settings-tab" data-tab="data">Data</button>
+        </div>
+        <!-- General Tab -->
+        <div class="settings-panel active" id="panel-general">
+          <div class="settings-section">
+            <div class="settings-section-title">Model & Persona</div>
+            <div class="form-group">
+              <label>Default Model</label>
+              <select id="defaultModelInput">
+                <optgroup label="Google">
+                  <option value="google/gemini-3-pro-preview">Gemini 3 Pro</option>
+                  <option value="google/gemini-3-flash-preview">Gemini 3 Flash</option>
+                  <option value="google/gemini-2.5-pro">Gemini 2.5 Pro</option>
+                  <option value="google/gemini-2.5-flash">Gemini 2.5 Flash</option>
+                  <option value="google/gemma-3-27b-it">Gemma 3 27B</option>
+                </optgroup>
+                <optgroup label="StepFun">
+                  <option value="stepfun/step-3.5-flash">Step 3.5 Flash</option>
+                </optgroup>
+                <optgroup label="xAI">
+                  <option value="x-ai/grok-4">Grok 4</option>
+                  <option value="x-ai/grok-code-fast-1">Grok Code Fast</option>
+                  <option value="x-ai/grok-4-fast">Grok 4 Fast</option>
+                  <option value="x-ai/grok-4.1-fast">Grok 4.1 Fast</option>
+                </optgroup>
+                <optgroup label="Anthropic">
+                  <option value="anthropic/claude-opus-4.6">Claude Opus 4.6</option>
+                  <option value="anthropic/claude-sonnet-4.6">Claude Sonnet 4.6</option>
+                  <option value="anthropic/claude-sonnet-4">Claude Sonnet 4</option>
+                  <option value="anthropic/claude-opus-4">Claude Opus 4</option>
+                  <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
+                </optgroup>
+                <optgroup label="OpenAI">
+                  <option value="openai/gpt-5.4-chat">GPT-5.4 Chat</option>
+                  <option value="openai/gpt-5.2">GPT-5.2</option>
+                  <option value="openai/gpt-5">GPT-5</option>
+                  <option value="openai/gpt-4o">GPT-4o</option>
+                  <option value="openai/gpt-oss-120b">GPT-OSS 120B</option>
+                  <option value="openai/gpt-oss-20b">GPT-OSS 20B</option>
+                </optgroup>
+                <optgroup label="DeepSeek">
+                  <option value="deepseek/deepseek-v3.2">DeepSeek V3.2</option>
+                  <option value="deepseek/deepseek-chat">DeepSeek V3</option>
+                  <option value="deepseek/deepseek-r1">DeepSeek R1</option>
+                </optgroup>
+                <optgroup label="Qwen">
+                  <option value="qwen/qwen3.5-plus-02-15">Qwen 3.5 Plus</option>
+                  <option value="qwen/qwen3-coder">Qwen3 Coder 480B</option>
+                  <option value="qwen/qwen3-235b-a22b">Qwen3 235B</option>
+                  <option value="qwen/qwen-2.5-72b-instruct">Qwen 2.5 72B</option>
+                  <option value="qwen/qwen-2.5-coder-32b-instruct">Qwen 2.5 Coder 32B</option>
+                  <option value="qwen/qwq-32b">QwQ 32B</option>
+                </optgroup>
+                <optgroup label="Meta Llama">
+                  <option value="meta-llama/llama-4-maverick">Llama 4 Maverick</option>
+                  <option value="meta-llama/llama-4-scout">Llama 4 Scout</option>
+                  <option value="meta-llama/llama-3.3-70b-instruct">Llama 3.3 70B</option>
+                  <option value="meta-llama/llama-3.1-405b-instruct">Llama 3.1 405B</option>
+                  <option value="meta-llama/llama-3.1-8b-instruct">Llama 3.1 8B</option>
+                </optgroup>
+                <optgroup label="Z.AI / GLM">
+                  <option value="z-ai/glm-5">GLM-5</option>
+                  <option value="z-ai/glm-4.7">GLM-4.7</option>
+                </optgroup>
+                <optgroup label="Mistral">
+                  <option value="mistralai/mistral-large-2512">Mistral Large 3</option>
+                  <option value="mistralai/mistral-medium-3.1">Mistral Medium 3.1</option>
+                  <option value="mistralai/mixtral-8x22b-instruct">Mixtral 8x22B</option>
+                </optgroup>
+                <optgroup label="Hermes">
+                  <option value="nousresearch/hermes-4-70b">Hermes 4 70B</option>
+                  <option value="nousresearch/hermes-4-405b">Hermes 4 405B</option>
+                  <option value="nousresearch/hermes-3-llama-3.1-70b">Hermes 3 70B</option>
+                  <option value="nousresearch/hermes-3-llama-3.1-405b">Hermes 3 405B</option>
+                </optgroup>
+                <optgroup label="Xiaomi">
+                  <option value="xiaomi/mimo-v2-pro">MiMo-V2 Pro</option>
+                  <option value="xiaomi/mimo-v2-flash">MiMo-V2 Flash</option>
+                </optgroup>
+                <optgroup label="Other">
+                  <option value="minimax/minimax-m2.5">MiniMax M2.5</option>
+                  <option value="moonshotai/kimi-k2">Kimi K2</option>
+                  <option value="moonshotai/kimi-k2.5">Kimi K2.5</option>
+                  <option value="perplexity/sonar">Perplexity Sonar</option>
+                  <option value="nvidia/nemotron-3-super-120b-a12b">Nemotron 3 Super</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Mode</label>
+              <div id="personaDisplay" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--accent); border: 1px solid var(--primary); border-radius: 6px; box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);">
+                <span style="color: var(--primary); font-weight: 600;">GODMODE</span>
+                <span style="margin-left: auto; font-size: 0.7em; color: var(--primary);">ENABLED</span>
+              </div>
+              <input type="hidden" id="personaSelect" value="godmode">
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-section-title">Privacy</div>
+            <div class="form-group">
+              <div class="checkbox-group">
+                <input type="checkbox" id="noLogMode" checked>
+                <label for="noLogMode" style="margin: 0;">No-Log Mode</label>
+              </div>
+              <small style="color: #888; display: block; margin-top: 4px;">Enhanced privacy - requests not logged by OpenRouter.</small>
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-section-title">✨ Transparency</div>
+            <div class="form-group">
+              <div class="checkbox-group">
+                <input type="checkbox" id="showMagic">
+                <label for="showMagic" style="margin: 0;">Show Magic</label>
+              </div>
+              <small style="color: #888; display: block; margin-top: 4px;">Reveal the backend magic - see thinking steps, retry attempts, template switching, and obfuscation techniques in real-time.</small>
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-section-title">🎮 Waiting Game</div>
+            <div class="form-group">
+              <label>Game while ULTRAPLINIAN thinks</label>
+              <select id="waitingGameSelect">
+                <option value="snake">🐉 Snake (arrow keys/WASD)</option>
+                <option value="2048">🎲 2048 (arrow keys)</option>
+                <option value="pong">🏓 Pong (mouse)</option>
+                <option value="none">None (disabled)</option>
+              </select>
+              <small style="color: #888; display: block; margin-top: 4px;">Play a mini-game while waiting for ULTRAPLINIAN to query all models.</small>
+            </div>
+          </div>
+        </div>
+        <!-- System Prompt Tab -->
+        <div class="settings-panel" id="panel-system">
+          <div class="settings-section">
+            <div class="settings-section-title">Custom System Prompt</div>
+            <div class="form-group">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                <label for="customSystemPromptEnabled" style="margin: 0; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" id="customSystemPromptEnabled" style="width: 16px; height: 16px; accent-color: var(--primary);">
+                  Enable custom system prompt
+                </label>
+                <span id="systemPromptStatus" class="system-prompt-status off">OFF</span>
+              </div>
+              <p style="color: var(--text-dim); font-size: 11px; margin: 0 0 10px 0;">
+                When enabled, this prompt is prepended as a system message to every API call. Use it for persona instructions, style guidance, custom rules, or anything you want the model to follow.
+              </p>
+              <textarea
+                id="customSystemPromptInput"
+                class="custom-system-prompt-textarea"
+                placeholder="Enter your system prompt here...&#10;&#10;Examples:&#10;• You are a helpful coding assistant. Always provide working code with comments.&#10;• Respond in formal academic English. Cite sources when possible.&#10;• You are a creative writing partner. Be vivid and descriptive."
+                rows="12"
+              ></textarea>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                <span id="systemPromptCharCount" style="font-size: 11px; color: var(--text-dim);">0 characters</span>
+                <button class="api-key-btn" onclick="clearCustomSystemPrompt()" style="font-size: 11px; padding: 4px 10px;">Clear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Strategies Tab -->
+        <div class="settings-panel" id="panel-strategies">
+          <p style="color: #888; font-size: 12px; margin-bottom: 16px;">Configure parameters for each mode. Select modes from the dropdown in the main interface.</p>
+          <!-- LIQUID RESPONSE — Universal Delivery Layer -->
+          <div class="settings-section" style="background: linear-gradient(135deg, rgba(0, 200, 255, 0.12) 0%, rgba(138, 43, 226, 0.08) 100%); border: 1px solid rgba(0, 200, 255, 0.25);">
+            <div class="settings-section-title" style="color: #00c8ff;">💧 LIQUID RESPONSE — Delivery Layer</div>
+            <small style="color: #999; display: block; margin-bottom: 12px; line-height: 1.5;">
+              Universal layer that controls <strong style="color: #ccc;">how</strong> responses arrive. Independent of which strategy generates the content.
+              When enabled, you see the best response so far immediately, with live morphing upgrades as better results come in.
+              Also toggleable via the <span style="color: #00c8ff; font-weight: 600;">LIQUID</span> button in the chat header.
+            </small>
+            <!-- Enable toggle -->
+            <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.2); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+              <input type="checkbox" id="liquidModeGlobal" style="width: 18px; height: 18px; accent-color: #00c8ff; cursor: pointer;">
+              <label for="liquidModeGlobal" style="margin: 0; font-size: 13px; font-weight: 500; color: #00c8ff; cursor: pointer;">Enable Liquid Response</label>
+            </div>
+            <!-- Controls: Min Delta + Max Iterations + Target Score -->
+            <div id="liquidGlobalControls" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+              <div class="form-group" style="margin: 0;">
+                <label style="color: #00c8ff;">Min Improvement: <span id="liquidMinDeltaValueGlobal" style="color: #fff; font-weight: 600;">8</span>%</label>
+                <input type="range" id="liquidMinDeltaGlobal" min="1" max="50" value="8" style="width: 100%; accent-color: #00c8ff;">
+                <small style="color: #888; display: block; margin-top: 4px;">Score points a new leader must beat the current by (1-50)</small>
+              </div>
+              <div class="form-group" style="margin: 0;">
+                <label style="color: #00c8ff;">Max Attempts: <span id="liquidMaxValueGlobal" style="color: #fff; font-weight: 600;">4</span></label>
+                <input type="range" id="liquidMaxIterationsGlobal" min="1" max="10" value="4" style="width: 100%; accent-color: #00c8ff;">
+                <small style="color: #888; display: block; margin-top: 4px;">How many refinement passes to try (1-10)</small>
+              </div>
+              <div class="form-group" style="margin: 0;">
+                <label style="color: #a855f7;">Target Quality: <span id="liquidTargetValueGlobal" style="color: #fff; font-weight: 600;">85</span></label>
+                <input type="range" id="liquidTargetScoreGlobal" min="60" max="100" value="85" style="width: 100%; accent-color: #a855f7;">
+                <small style="color: #888; display: block; margin-top: 4px;">Crystallize when response reaches this score (60-100)</small>
+              </div>
+            </div>
+            <!-- Mode Interactions -->
+            <div style="margin-top: 4px;">
+              <div style="font-size: 10px; font-weight: bold; color: #00c8ff; letter-spacing: 1.5px; margin-bottom: 8px; font-family: monospace;">HOW LIQUID INTERACTS WITH EACH MODE</div>
+              <div style="display: grid; gap: 6px;">
+                <!-- Standard -->
+                <div style="padding: 8px 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;">
+                  <span style="font-size: 10px; font-weight: bold; color: #ccc; font-family: monospace;">STANDARD</span>
+                  <p style="font-size: 11px; color: #888; margin: 2px 0 0 0; line-height: 1.4;">Streams tokens live as they arrive from a single model, instead of waiting for the complete response.</p>
+                </div>
+                <!-- Ultraplinian -->
+                <div style="padding: 8px 10px; background: rgba(255, 107, 107, 0.05); border: 1px solid rgba(255, 107, 107, 0.15); border-radius: 6px;">
+                  <span style="font-size: 10px; font-weight: bold; color: #ff6b6b; font-family: monospace;">ULTRAPLINIAN</span>
+                  <p style="font-size: 11px; color: #888; margin: 2px 0 0 0; line-height: 1.4;">Shows the first scored response immediately, then morphs the display as faster models finish and a higher-scoring leader emerges. Each upgrade must beat the current leader by the min-delta threshold.</p>
+                </div>
+                <!-- L1B3RT4S -->
+                <div style="padding: 8px 10px; background: rgba(236, 72, 153, 0.05); border: 1px solid rgba(236, 72, 153, 0.15); border-radius: 6px;">
+                  <span style="font-size: 10px; font-weight: bold; color: #ec4899; font-family: monospace;">G0DM0D3 CLASSIC</span>
+                  <p style="font-size: 11px; color: #888; margin: 2px 0 0 0; line-height: 1.4;">All jailbreak templates race in parallel instead of early-exiting on the first non-refusal. The best-scoring template is served immediately, then progressively upgraded as higher-scoring templates complete. The winner is then handed to the Liquid refinement loop for iterative polishing.</p>
+                </div>
+                <!-- Parseltongue -->
+                <div style="padding: 8px 10px; background: rgba(74, 124, 67, 0.05); border: 1px solid rgba(74, 124, 67, 0.15); border-radius: 6px;">
+                  <span style="font-size: 10px; font-weight: bold; color: #4a7c43; font-family: monospace;">PARSELTONGUE</span>
+                  <p style="font-size: 11px; color: #888; margin: 2px 0 0 0; line-height: 1.4;">Parseltongue operates on the <em>input</em> side (obfuscating trigger words before they reach the model), while Liquid operates on the <em>output</em> side (upgrading responses as they arrive). They are fully independent and stack: Parseltongue encodes your prompt, the model responds, and Liquid delivers the result with live morphing.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ULTRAPLINIAN Parameters -->
+          <div class="settings-section" style="background: linear-gradient(135deg, rgba(255, 0, 85, 0.1) 0%, rgba(255, 102, 0, 0.1) 100%);">
+            <div class="settings-section-title" style="color: #ff6b6b;">🌋 ULTRAPLINIAN Parameters</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label>Speed Tier</label>
+                <select id="ultraSpeedTier" style="accent-color: #ff6b6b;">
+                  <!-- Options populated by buildTierSelect() from TIER_SIZES -->
+                </select>
+                <small style="color: #888; display: block; margin-top: 4px;">More models = slower but better. Fast tier prioritizes uncensored.</small>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label>Early Stop Threshold: <span id="thresholdValue" style="font-weight: 600;">75</span> <span id="thresholdGrade" style="font-size: 11px;"></span></label>
+                <input type="range" id="ultraEarlyThreshold" min="0" max="100" value="75" style="width: 100%; accent-color: #ff6b6b;">
+                <div style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;">
+                  <button onclick="setThresholdPreset(0)" class="threshold-preset" data-value="0" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; border: 1px solid #555; background: #333; color: #888; cursor: pointer;">OFF</button>
+                  <button onclick="setThresholdPreset(65)" class="threshold-preset" data-value="65" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; border: 1px solid #ffaa00; background: rgba(255, 170, 0, 0.15); color: #ffaa00; cursor: pointer;">65+ OK</button>
+                  <button onclick="setThresholdPreset(75)" class="threshold-preset" data-value="75" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; border: 1px solid #00bfff; background: rgba(0, 191, 255, 0.15); color: #00bfff; cursor: pointer;">75+ GOOD</button>
+                  <button onclick="setThresholdPreset(85)" class="threshold-preset" data-value="85" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; border: 1px solid #00ff41; background: rgba(0, 255, 65, 0.15); color: #00ff41; cursor: pointer;">85+ EXCELLENT</button>
+                  <button onclick="setThresholdPreset(92)" class="threshold-preset" data-value="92" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; border: 1px solid #ffd700; background: rgba(255, 215, 0, 0.15); color: #ffd700; cursor: pointer;">92+ ELITE</button>
+                </div>
+                <small style="color: #888; display: block; margin-top: 6px;">Unified 0-100 scale. Higher = pickier but slower. 0 = wait for all models.</small>
+                <!-- Score Legend -->
+                <details style="margin-top: 10px; font-size: 11px;">
+                  <summary style="cursor: pointer; color: #aaa; margin-bottom: 8px;">📊 Score Legend (click to expand)</summary>
+                  <div style="background: rgba(0,0,0,0.3); border-radius: 6px; padding: 10px; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: center;">
+                    <span style="color: #ffd700; font-weight: bold;">⚡ 90-100</span><span style="color: #ccc;">ELITE - Top-tier, exceptional quality</span>
+                    <span style="color: #00ff41; font-weight: bold;">🔥 80-89</span><span style="color: #ccc;">EXCELLENT - High quality, recommended</span>
+                    <span style="color: #00bfff; font-weight: bold;">✓ 70-79</span><span style="color: #ccc;">GOOD - Solid, meets standards</span>
+                    <span style="color: #ffaa00; font-weight: bold;">~ 60-69</span><span style="color: #ccc;">ACCEPTABLE - Passable, room to improve</span>
+                    <span style="color: #ff3e3e; font-weight: bold;">✗ 0-59</span><span style="color: #ccc;">POOR - Below standards, likely refused</span>
+                  </div>
+                  <div style="margin-top: 8px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 4px; color: #888; line-height: 1.4;">
+                    <strong style="color: #ff6b6b;">Score = Quality (50%) + Filteredness (30%) + Speed (20%)</strong><br>
+                    <span style="font-size: 10px;">
+                      <b>Quality:</b> Relevance, completeness, coherence, specificity, depth, accuracy<br>
+                      <b>Filteredness:</b> No hedging, no preambles, no refusals, direct answers<br>
+                      <b>Speed:</b> Response time, tokens/sec, efficiency
+                    </span>
+                  </div>
+                </details>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Models by Tier <small style="color: #888;">(click to select · auto-synced from model list)</small></label>
+              <div id="tierModelDisplay" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font-size: 11px; font-family: monospace;">
+                <!-- Dynamically populated by buildTierDisplay() from ULTRAPLINIAN_MODELS -->
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+              <div class="form-group" style="background: rgba(255, 107, 107, 0.08); border: 1px solid rgba(255, 107, 107, 0.2); border-radius: 8px; padding: 12px; margin: 0;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <input type="checkbox" id="ultraImproveMode" checked style="width: 18px; height: 18px; accent-color: #ff6b6b; cursor: pointer;">
+                  <label for="ultraImproveMode" style="margin: 0; font-size: 13px; font-weight: 500; color: #ff6b6b; cursor: pointer;">🎓 Coaching Pass</label>
+                </div>
+                <small style="color: #999; display: block; margin-top: 6px; line-height: 1.4; font-size: 10px;">AI coach analyzes winner and demands specific enhancements.</small>
+              </div>
+            </div>
+          </div>
+          <!-- L1B3RT4S Hall of Fame -->
+          <div class="settings-section" style="background: linear-gradient(135deg, rgba(138, 43, 226, 0.15) 0%, rgba(255, 0, 128, 0.1) 100%);">
+            <div class="settings-section-title" style="color: #a855f7;">⛓️‍💥 G0DM0D3 CLASSIC — Hall of Fame</div>
+            <small style="color: #888; display: block; margin-bottom: 12px;">4 proven model + prompt combos. Each races its own model. Toggle combos on/off.</small>
+            <!-- Combo count summary -->
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3);">
+              <div style="flex: 1;">
+                <span id="libertasActiveCount" style="font-size: 18px; font-weight: bold; color: #a855f7; font-family: monospace;">0</span>
+                <span style="font-size: 11px; color: #888;"> / </span>
+                <span id="libertasTotalCount" style="font-size: 13px; color: #888; font-family: monospace;">0</span>
+                <span style="font-size: 11px; color: #888;"> combos active</span>
+              </div>
+              <button onclick="toggleAllLibertasCombos(true)" style="padding: 4px 8px; font-size: 9px; border-radius: 4px; border: 1px solid #a855f7; background: rgba(168, 85, 247, 0.15); color: #a855f7; cursor: pointer; font-family: monospace;">ALL ON</button>
+              <button onclick="toggleAllLibertasCombos(false)" style="padding: 4px 8px; font-size: 9px; border-radius: 4px; border: 1px solid #666; background: rgba(100, 100, 100, 0.15); color: #888; cursor: pointer; font-family: monospace;">ALL OFF</button>
+            </div>
+            <!-- Hall of Fame combo list -->
+            <div id="libertas-hof-list" style="display: grid; gap: 8px;"></div>
+          </div>
+          <!-- PARSELTONGUE Parameters -->
+          <div class="settings-section" style="background: linear-gradient(135deg, rgba(45, 90, 39, 0.15) 0%, rgba(74, 124, 67, 0.1) 100%);">
+            <div class="settings-section-title" style="color: #4a7c43;">🐉 PARSELTONGUE Parameters</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label>Obfuscation Tier</label>
+                <select id="parseltongueTier" style="accent-color: #4a7c43;">
+                  <option value="light">🌿 LIGHT (11 techniques)</option>
+                  <option value="standard" selected>🐉 STANDARD (22 techniques)</option>
+                  <option value="heavy">☠️ HEAVY (33 techniques)</option>
+                </select>
+                <small style="color: #888; display: block; margin-top: 4px;">More techniques = slower but more likely to find a bypass.</small>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label>Max Retry Attempts</label>
+                <select id="maxRetriesInput">
+                  <option value="2">2 retries</option>
+                  <option value="3">3 retries</option>
+                  <option value="4">4 retries</option>
+                  <option value="5" selected>5 retries</option>
+                  <option value="7">7 retries</option>
+                  <option value="10">10 retries</option>
+                </select>
+                <small style="color: #888; display: block; margin-top: 4px;">Retry attempts for GODMODE fallback.</small>
+              </div>
+            </div>
+            <div style="display: flex; gap: 12px; margin-top: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; flex: 1;">
+                <input type="checkbox" id="parseltongue" checked style="width: 16px; height: 16px; accent-color: #4a7c43;">
+                <label for="parseltongue" style="margin: 0; font-size: 13px; cursor: pointer;">Enable Transforms</label>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; flex: 1;">
+                <input type="checkbox" id="autoRetry" checked style="width: 16px; height: 16px; accent-color: #4a7c43;">
+                <label for="autoRetry" style="margin: 0; font-size: 13px; cursor: pointer;">Auto-Retry on Refusal</label>
+              </div>
+            </div>
+          </div>
+          <!-- AutoTune - Intelligent Parameter Optimization -->
+          <div class="settings-section" style="background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(138, 43, 226, 0.1) 100%);">
+            <div class="settings-section-title" style="color: #00ffff;">🧠 AutoTune</div>
+            <small style="color: #888; display: block; margin-bottom: 12px;">Context-aware parameter optimization. Analyzes your message and auto-adjusts model parameters.</small>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+              <div class="form-group" style="background: rgba(0, 255, 255, 0.08); border: 1px solid rgba(0, 255, 255, 0.2); border-radius: 8px; padding: 12px; margin: 0;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <input type="checkbox" id="autoTuneEnabled" style="width: 18px; height: 18px; accent-color: #00ffff; cursor: pointer;">
+                  <label for="autoTuneEnabled" style="margin: 0; font-size: 13px; font-weight: 500; color: #00ffff; cursor: pointer;">Enable AutoTune</label>
+                </div>
+                <small style="color: #999; display: block; margin-top: 6px; line-height: 1.4; font-size: 10px;">Auto-detects context (code, creative, analytical, chat, chaos) and optimizes parameters.</small>
+              </div>
+              <div class="form-group" style="margin: 0;">
+                <label style="color: #00ffff;">Strategy</label>
+                <select id="autoTuneStrategy" style="accent-color: #00ffff;">
+                  <option value="adaptive">🎯 ADAPTIVE (auto-detect context)</option>
+                  <option value="precise">🔬 PRECISE (low temp, tight sampling)</option>
+                  <option value="balanced">⚖️ BALANCED (general use)</option>
+                  <option value="creative">🎨 CREATIVE (high temp, diverse)</option>
+                  <option value="chaotic">🌀 CHAOTIC (max entropy)</option>
+                </select>
+              </div>
+            </div>
+            <!-- AutoTune Context Detection Display -->
+            <div id="autoTunePreview" style="display: none; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 6px; margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="color: #00ffff; font-weight: 600; font-size: 11px;">CONTEXT DETECTION</span>
+                <span id="autoTuneContext" style="color: #fff; font-size: 10px; font-family: monospace; background: rgba(0, 255, 255, 0.2); padding: 2px 6px; border-radius: 4px;">—</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; font-size: 9px; font-family: monospace;">
+                <div style="text-align: center; padding: 4px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+                  <div style="color: #888;">TEMP</div>
+                  <div id="atTemp" style="color: #00ffff; font-weight: 600;">—</div>
+                </div>
+                <div style="text-align: center; padding: 4px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+                  <div style="color: #888;">TOP-P</div>
+                  <div id="atTopP" style="color: #00ffff; font-weight: 600;">—</div>
+                </div>
+                <div style="text-align: center; padding: 4px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+                  <div style="color: #888;">TOP-K</div>
+                  <div id="atTopK" style="color: #00ffff; font-weight: 600;">—</div>
+                </div>
+                <div style="text-align: center; padding: 4px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+                  <div style="color: #888;">FREQ</div>
+                  <div id="atFreq" style="color: #00ffff; font-weight: 600;">—</div>
+                </div>
+                <div style="text-align: center; padding: 4px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+                  <div style="color: #888;">PRES</div>
+                  <div id="atPres" style="color: #00ffff; font-weight: 600;">—</div>
+                </div>
+                <div style="text-align: center; padding: 4px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+                  <div style="color: #888;">REP</div>
+                  <div id="atRep" style="color: #00ffff; font-weight: 600;">—</div>
+                </div>
+              </div>
+            </div>
+            <details style="font-size: 11px;">
+              <summary style="cursor: pointer; color: #aaa; margin-bottom: 8px;">📊 Context Profiles (click to expand)</summary>
+              <div style="background: rgba(0,0,0,0.3); border-radius: 6px; padding: 10px; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: center;">
+                <span style="color: #00ff88; font-weight: bold;">CODE</span><span style="color: #ccc;">Low temp (0.15), tight sampling, minimal penalties</span>
+                <span style="color: #ffa500; font-weight: bold;">CREATIVE</span><span style="color: #ccc;">High temp (1.15), diverse sampling, anti-repetition</span>
+                <span style="color: #00bfff; font-weight: bold;">ANALYTICAL</span><span style="color: #ccc;">Medium temp (0.4), balanced, slight penalties</span>
+                <span style="color: #a855f7; font-weight: bold;">CHAT</span><span style="color: #ccc;">Natural temp (0.75), relaxed sampling</span>
+                <span style="color: #ff3e3e; font-weight: bold;">CHAOS</span><span style="color: #ccc;">Max temp (1.7), full entropy, high penalties</span>
+              </div>
+            </details>
+          </div>
+          <!-- Universal Model Parameters -->
+          <div class="settings-section" style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 200, 255, 0.1) 100%);">
+            <div class="settings-section-title" style="color: #00ff88;">🎛️ Model Parameters (Manual Override)</div>
+            <small style="color: #888; display: block; margin-bottom: 12px;">Universal settings applied to all model API calls</small>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <!-- Temperature -->
+              <div class="form-group" style="margin: 0;">
+                <label style="color: #00ff88;">
+                  🌡️ Temperature: <span id="tempValue" style="color: #fff; font-weight: 600;">0.7</span>
+                </label>
+                <input type="range" id="modelTemperature" min="0" max="2" step="0.05" value="0.7" style="width: 100%; accent-color: #00ff88;">
+                <small style="color: #888; display: block; margin-top: 4px;">Creativity/randomness (0=precise, 2=wild)</small>
+              </div>
+              <!-- Top P -->
+              <div class="form-group" style="margin: 0;">
+                <label style="color: #00c8ff;">
+                  🎯 Top P: <span id="topPValue" style="color: #fff; font-weight: 600;">1.0</span>
+                </label>
+                <input type="range" id="modelTopP" min="0" max="1" step="0.05" value="1" style="width: 100%; accent-color: #00c8ff;">
+                <small style="color: #888; display: block; margin-top: 4px;">Nucleus sampling (0.1=focused, 1=full)</small>
+              </div>
+              <!-- Max Tokens -->
+              <div class="form-group" style="margin: 0;">
+                <label style="color: #ffa500;">
+                  📏 Max Tokens: <span id="maxTokensValue" style="color: #fff; font-weight: 600;">4096</span>
+                </label>
+                <input type="range" id="modelMaxTokens" min="256" max="16384" step="256" value="4096" style="width: 100%; accent-color: #ffa500;">
+                <small style="color: #888; display: block; margin-top: 4px;">Maximum response length (256-16384)</small>
+              </div>
+              <!-- Frequency Penalty -->
+              <div class="form-group" style="margin: 0;">
+                <label style="color: #ff6b6b;">
+                  🔄 Freq Penalty: <span id="freqPenaltyValue" style="color: #fff; font-weight: 600;">0.0</span>
+                </label>
+                <input type="range" id="modelFreqPenalty" min="0" max="2" step="0.1" value="0" style="width: 100%; accent-color: #ff6b6b;">
+                <small style="color: #888; display: block; margin-top: 4px;">Reduce repetition (0=none, 2=strong)</small>
+              </div>
+              <!-- Presence Penalty -->
+              <div class="form-group" style="margin: 0;">
+                <label style="color: #a855f7;">
+                  ✨ Presence Penalty: <span id="presPenaltyValue" style="color: #fff; font-weight: 600;">0.0</span>
+                </label>
+                <input type="range" id="modelPresPenalty" min="0" max="2" step="0.1" value="0" style="width: 100%; accent-color: #a855f7;">
+                <small style="color: #888; display: block; margin-top: 4px;">Encourage new topics (0=none, 2=strong)</small>
+              </div>
+              <!-- Reset Button -->
+              <div class="form-group" style="margin: 0; display: flex; align-items: flex-end;">
+                <button onclick="resetModelParams()" style="width: 100%; padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #888; cursor: pointer; font-size: 12px; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='#888';">
+                  🔄 Reset to Defaults
+                </button>
+              </div>
+            </div>
+            <!-- Presets -->
+            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
+              <label style="color: #888; font-size: 11px; margin-bottom: 6px; display: block;">Quick Presets:</label>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <button onclick="setModelPreset('precise')" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; border: 1px solid #00ff88; background: rgba(0, 255, 136, 0.15); color: #00ff88; cursor: pointer;">🎯 Precise</button>
+                <button onclick="setModelPreset('balanced')" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; border: 1px solid #00c8ff; background: rgba(0, 200, 255, 0.15); color: #00c8ff; cursor: pointer;">⚖️ Balanced</button>
+                <button onclick="setModelPreset('creative')" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; border: 1px solid #ffa500; background: rgba(255, 165, 0, 0.15); color: #ffa500; cursor: pointer;">🎨 Creative</button>
+                <button onclick="setModelPreset('wild')" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; border: 1px solid #ff6b6b; background: rgba(255, 107, 107, 0.15); color: #ff6b6b; cursor: pointer;">🔥 Wild</button>
+                <button onclick="setModelPreset('longform')" style="padding: 4px 8px; font-size: 10px; border-radius: 4px; border: 1px solid #a855f7; background: rgba(168, 85, 247, 0.15); color: #a855f7; cursor: pointer;">📚 Long-form</button>
+              </div>
+            </div>
+          </div>
+          <!-- Hidden checkboxes for state management (not shown but needed for JS) -->
+          <input type="checkbox" id="ultraplinian" style="display: none;">
+          <input type="checkbox" id="plinyMode" style="display: none;">
+        </div>
+        <!-- API Keys Tab -->
+        <div class="settings-panel" id="panel-api">
+          <div class="settings-section">
+            <div class="settings-section-title">OpenRouter API</div>
+            <div class="form-group">
+              <button id="orLoginBtn" class="or-login-btn" onclick="startOpenRouterLogin()">
+                <span class="or-icon">OR</span>
+                Log in with OpenRouter
+              </button>
+              <div id="orConnected" class="or-connected" style="display: none;">
+                <span class="or-icon" style="background: var(--primary); width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #000; font-weight: bold;">OR</span>
+                Connected via OpenRouter
+                <button class="or-disconnect" onclick="disconnectOpenRouter()">Disconnect</button>
+              </div>
+              <div class="or-divider">or paste key manually</div>
+              <label>API Key</label>
+              <input type="password" id="apiKeyInput" placeholder="sk-or-...">
+              <span id="apiKeyHint" style="display:block;font-size:11px;color:var(--text-dim);margin-top:4px;">Stored in your browser's localStorage only. Never sent to G0DM0D3 servers.</span>
+              <a href="https://openrouter.ai/keys" target="_blank" class="api-key-link">Get your API key at OpenRouter →</a>
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-section-title">G0DM0D3 Backend API</div>
+            <div class="form-group">
+              <label>API Endpoint</label>
+              <input type="text" id="backendUrlInput" placeholder="http://localhost:8000">
+              <small style="color: #888; display: block; margin-top: 4px;">URL of your self-hosted G0DM0D3 API backend.</small>
+            </div>
+            <div class="form-group">
+              <label>Your API Keys</label>
+              <div id="apiKeysList">
+                <div style="color: var(--text-dim); font-size: 13px; padding: 12px; background: var(--bg); border-radius: 8px;">No API keys generated yet.</div>
+              </div>
+              <div class="api-key-actions">
+                <button class="api-key-btn" onclick="generateApiKey()">+ Generate New Key</button>
+              </div>
+              <div id="newKeyDisplay" style="display: none;"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Data Tab -->
+        <div class="settings-panel" id="panel-data">
+          <!-- Self-custody banner -->
+          <div style="padding: 14px 16px; border-radius: 8px; border: 1px solid var(--accent); background: rgba(0,255,136,0.04); margin-bottom: 8px;">
+            <div style="font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 6px;">Your Data. Your Device. Your Responsibility.</div>
+            <div style="font-size: 12px; color: var(--text-dim); line-height: 1.6;">
+              G0DM0D3 stores everything locally in this browser — conversations, memories, settings, keys.
+              Nothing is sent to a server. There is no cloud sync, no account, no safety net.
+              If you clear your browser data or switch devices, <strong style="color: var(--text);">it's gone.</strong>
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-section-title">Self-Custody Backup</div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 10px; line-height: 1.5;">
+              Export downloads a JSON file you own — portable across browsers and devices.
+              Import restores from a previous backup. You'll confirm before anything is overwritten.
+            </div>
+            <div class="form-group">
+              <button class="view-logs-btn" onclick="exportFullBackup()" style="width: 100%; background: linear-gradient(135deg, #0a1f12 0%, #0d2818 100%); border-color: var(--accent);">⬇ Export Full Backup</button>
+            </div>
+            <div class="form-group">
+              <label class="view-logs-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer; text-align: center;">
+                ⬆ Restore from Backup
+                <input type="file" accept=".json" onchange="handleImportBackup(event)" style="display: none;" id="importFileInput">
+              </label>
+            </div>
+            <div id="importStatus" style="display: none; font-size: 12px; padding: 10px; border-radius: 6px; margin-top: 4px;"></div>
+            <div id="importConfirm" style="display: none; padding: 12px; border: 1px solid #ffaa00; border-radius: 8px; background: rgba(255,170,0,0.06); margin-top: 8px;">
+              <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 10px;">
+                ⚠ This will replace your current data with: <strong id="importSummaryText" style="color: var(--text);"></strong>.
+                Your existing conversations and settings will be overwritten.
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="view-logs-btn" onclick="confirmImportBackup()" style="flex: 1; border-color: #ffaa00; color: #ffaa00;">Confirm Import</button>
+                <button class="view-logs-btn" onclick="cancelImportBackup()" style="flex: 1;">Cancel</button>
+              </div>
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-section-title">Strategy Logs</div>
+            <div class="form-group">
+              <button class="view-logs-btn" onclick="openLogs()" style="width: 100%;">📊 View Strategy Logs</button>
+            </div>
+            <div class="form-group">
+              <button class="view-logs-btn" onclick="downloadAllLogs()" style="width: 100%; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-color: #00d4ff;">📥 Download All Logs (JSON)</button>
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-section-title" style="color: var(--danger);">Danger Zone</div>
+            <div class="form-group">
+              <button class="view-logs-btn danger" onclick="clearAllData()" style="width: 100%; border-color: var(--danger); color: var(--danger);">🗑 Clear All Data</button>
+            </div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px; line-height: 1.4;">
+              Wipes this browser's localStorage completely. Cannot be recovered without a backup file.
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-section-title">Storage Info</div>
+            <div class="form-group">
+              <div id="storageInfo" style="font-size: 13px; color: var(--text-dim);">
+                Calculating...
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="auto-save-indicator" id="autoSaveIndicator" style="display: none;">
+          <span class="auto-save-check">✓</span> Settings saved automatically
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Strategy Logs Modal -->
+  <div class="modal-overlay logs-modal" id="logsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>📊 Strategy Logs</h3>
+        <button class="modal-close" onclick="closeLogs()">×</button>
+      </div>
+      <div class="modal-body">
+        <div id="logsContent"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Global Liquid Mode Indicator -->
+  <div class="liquid-global-indicator" id="liquidGlobalIndicator">
+    <div class="liquid-spinner"></div>
+    <span>💧 Refining response...</span>
+    <span class="liquid-iteration" id="liquidGlobalIteration">1/5</span>
+  </div>
+</body>
+</html>
