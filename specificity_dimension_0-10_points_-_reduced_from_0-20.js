@@ -1,0 +1,1 @@
+// SPECIFICITY DIMENSION (0-10 points) - Reduced from 0-20

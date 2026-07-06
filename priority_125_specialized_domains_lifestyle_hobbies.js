@@ -1,0 +1,1 @@
+// PRIORITY 12.5: Specialized Domains (Lifestyle & Hobbies)

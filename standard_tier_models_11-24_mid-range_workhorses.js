@@ -1,0 +1,1 @@
+// 🎯 STANDARD TIER (models 11-24): Mid-range workhorses

@@ -1,0 +1,1 @@
+// DIRECTNESS DIMENSION (-8 to +5 points) - Reduced bonus, same penalty

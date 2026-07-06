@@ -1,0 +1,1 @@
+// ⚔️ POWER TIER (models 39-49): Frontier, cutting-edge

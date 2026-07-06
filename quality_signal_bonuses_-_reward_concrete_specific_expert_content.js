@@ -1,0 +1,1 @@
+// QUALITY SIGNAL BONUSES - Reward concrete, specific, expert content

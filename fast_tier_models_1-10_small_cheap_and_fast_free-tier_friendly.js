@@ -1,0 +1,1 @@
+// ⚡ FAST TIER (models 1-10): Small, cheap, and fast — free-tier friendly

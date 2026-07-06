@@ -1,0 +1,1 @@
+// STRUCTURE DIMENSION (0-12 points) - Reduced from 0-22

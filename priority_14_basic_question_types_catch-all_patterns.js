@@ -1,0 +1,1 @@
+// PRIORITY 14: Basic Question Types (catch-all patterns)

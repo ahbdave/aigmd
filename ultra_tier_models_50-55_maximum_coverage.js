@@ -1,0 +1,1 @@
+// 🔱 ULTRA TIER (models 50-55): Maximum coverage

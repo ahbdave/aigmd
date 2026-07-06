@@ -1,0 +1,1 @@
+// 🧠 SMART TIER (models 25-38): Flagships and heavy hitters

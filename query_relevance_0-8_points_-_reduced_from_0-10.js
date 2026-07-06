@@ -1,0 +1,1 @@
+// QUERY RELEVANCE (0-8 points) - Reduced from 0-10

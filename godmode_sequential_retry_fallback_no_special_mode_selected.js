@@ -1,0 +1,1 @@
+// GODMODE SEQUENTIAL RETRY (fallback — no special mode selected)
